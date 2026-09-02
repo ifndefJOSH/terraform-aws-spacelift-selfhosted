@@ -230,6 +230,23 @@ variable "rds_performance_insights" {
   }
 }
 
+variable "rds_monitoring" {
+  description = "Configuration for RDS Enhanced Monitoring."
+  type = object({
+    interval = optional(number)
+    role_arn = optional(string)
+  })
+  default  = {}
+  nullable = false
+}
+
+
+variable "rds_enabled_cloudwatch_logs_exports" {
+  description = "Set of log types to export to cloudwatch for RDS"
+  type        = set(string)
+  default     = null
+}
+
 variable "rds_apply_immediately" {
   type        = bool
   description = "Whether to apply RDS cluster modifications immediately or during the next maintenance window. Recommended to set to true to avoid unexpected changes during maintenance windows."

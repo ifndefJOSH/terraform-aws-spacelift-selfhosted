@@ -54,6 +54,11 @@ resource "aws_rds_cluster" "db_cluster" {
   copy_tags_to_snapshot   = true
   skip_final_snapshot     = true
 
+  enabled_cloudwatch_logs_exports       = var.enabled_cloudwatch_logs_exports
+  performance_insights_enabled          = lookup(var.performance_insights, "enabled", false)
+  performance_insights_kms_key_id       = lookup(var.performance_insights, "kms_key_arn", null)
+  performance_insights_retention_period = lookup(var.performance_insights, "retention_period", null)
+
   deletion_protection             = var.db_delete_protection_enabled
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.spacelift.name
 
@@ -75,6 +80,8 @@ resource "aws_rds_cluster_instance" "db_instance" {
   performance_insights_enabled          = lookup(var.performance_insights, "enabled", false)
   performance_insights_kms_key_id       = lookup(var.performance_insights, "kms_key_arn", null)
   performance_insights_retention_period = lookup(var.performance_insights, "retention_period", null)
+  monitoring_interval                   = var.monitoring.interval
+  monitoring_role_arn                   = var.monitoring.role_arn
 }
 
 resource "aws_db_subnet_group" "db_subnet_group" {
