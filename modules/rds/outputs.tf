@@ -43,6 +43,8 @@ output "secrets_manager_database_connection_string_name" {
 output "secrets_manager_database_connection_string_arn" {
   description = "Connection string for the database stored in Secrets Manager."
   value       = aws_secretsmanager_secret.conn_string.arn
+
+  depends_on = [aws_secretsmanager_secret_version.conn_string]
 }
 
 output "secrets_manager_database_connection_string_version_id" {
